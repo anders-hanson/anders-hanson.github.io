@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Temperatur</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!--
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+ -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <style>
+        .panel {
+      background-color: black;
+      color: #83D809;
+      margin-bottom: 1px;
+    }
+    .panel-body{
+      color: #83D809;
+      padding: 1px;
+    }
+    .h2{
+      margin-top: 1px;
+      color: #83D809;
+    }
+    a{
+        color: #83D809;
+    }
+    .h1{
+      margin-top: 1px;
+      color: #83D809;
+    }
+    body{
+        background-color: black;      
+        color: #83D809;
+     } 
+  </style>
+
+    <script type="text/javascript">
+        var urlTemp = "https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/1/station/71420/period/latest-hour/data.json";
+
+        function loadDataFromSmhi(url) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var myObj = JSON.parse(this.responseText);
+                    document.getElementById("goteborg").innerHTML = myObj.value[0].value + " &deg;" + "C";
+                    // document.getElementById("station").innerHTML = myObj.station["name"];
+                    var klockan = new Date(myObj.value[0].date);
+
+                    document.getElementById("goteborgtime").innerHTML = klockan.getHours() + ":"
+                        + ("0" + klockan.getMinutes()).slice(-2);
+                }
+            };
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+    </script>
+
+</head>
+
+<body style="background-color: black" style="color: #83D809;">
+
+    <div class="container">
+        <h2 style="color: #83D809;" align="center" id="station">Temperatur</h2>
+
+        <div class="panel" align="center">
+            <div class="panel-header">
+                <h3>Hallstenshagen</h3>
+            </div>
+            <div class="panel-body">
+                <h3>
+                    <strong style="font-size: 40px" style="color: #83D809;" id="hallstenshagen">
+                        <!-- Temperatur frÃ¥n temperatur.nu -->
+                        <script type="text/javascript" src="https://www.temperatur.nu/jstemp.php?s=hallstenshagen"></script>
+                    </strong>
+                </h3>
+            </div>
+        </div>
+        <div class="panel" align="center">
+            <div class="panel-header">
+                <h4>NÃ¤set</h4>
+            </div>
+            <div class="panel-body">
+                <h3>
+                    <strong style="font-size: 40px" style="color: #83D809;" id="naset">
+                        <script type="text/javascript" src="https://www.temperatur.nu/jstemp.php?s=naset">
+                        </script>
+                    </strong>
+                </h3>
+            </div>
+        </div>
+        <div class="panel" align="center">
+            <div class="panel-header">
+                <h4>Göteborg</h4>
+            </div>
+            <div class="panel-body">
+                <h3>
+                    <strong style="font-size: 40px" style="color: #83D809;" id="goteborg">
+                        <script>
+                            loadDataFromSmhi(urlTemp);
+                        </script>
+                    </strong>
+                </h3>
+                <h5 id="goteborgtime" style="color: #83D809;"></h5>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
